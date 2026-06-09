@@ -1,0 +1,82 @@
+﻿
+@model OTCMS.Components.Video
+
+@{
+    ViewData["Title"] = "Video Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Video Details</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-info text-white">
+        <h4 class="mb-0">Video Information</h4>
+    </div>
+
+    <div class="card-body">
+        <dl class="row">
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.VideoTitle)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.VideoTitle)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.VideoDescription)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.VideoDescription)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.VideoLink)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.Raw(Model.VideoLink)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.Status)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.course)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.course.CourseDescription)
+            </dd>
+        </dl>
+
+        <div class="mt-4">
+            <a asp-action="Edit" asp-route-id="@Model?.CourseVideoId" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                <i class="bi bi-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>
+

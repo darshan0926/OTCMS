@@ -1,0 +1,102 @@
+﻿@model OTCMS.Components.Batch
+
+@{
+    ViewData["Title"] = "Edit Batch";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Edit Batch</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+        <h4 class="mb-0">Update Batch Information</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <input type="hidden" asp-for="BatchId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="BatchName" class="form-label">Batch Name</label>
+                <input asp-for="BatchName" class="form-control" placeholder="Enter batch name" />
+                <span asp-validation-for="BatchName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="StartDate" class="form-label">Start Date</label>
+                <input asp-for="StartDate" type="date" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="EndDate" class="form-label">End Date</label>
+                <input asp-for="EndDate" type="date" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="HandledBy" class="form-label">Handled By</label>
+                <input asp-for="HandledBy" class="form-control" placeholder="Instructor/Trainer Name" />
+                <span asp-validation-for="HandledBy" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="Status" />
+                <label class="form-check-label" asp-for="Status">Active Status</label>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Timings" class="form-label">Timings</label>
+                <input asp-for="Timings" class="form-control" placeholder="e.g. 10:00 AM - 12:00 PM" />
+                <span asp-validation-for="Timings" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Duration" class="form-label">Duration</label>
+                <input asp-for="Duration" class="form-control" placeholder="e.g. 3 Months" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Fee" class="form-label">Fee</label>
+                <input asp-for="Fee" type="number" step="0.01" class="form-control" placeholder="Enter Fee Amount" />
+                <span asp-validation-for="Fee" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Enter Batch Description"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CourseId" class="form-label">Select Course</label>
+                <select asp-for="CourseId" class="form-select" asp-items="ViewBag.CourseId"></select>
+                <span asp-validation-for="CourseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Save Changes
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

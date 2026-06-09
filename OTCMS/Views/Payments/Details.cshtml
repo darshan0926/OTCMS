@@ -1,0 +1,121 @@
+﻿@model OTCMS.Components.Payment
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+
+
+<h2>Payment Details</h2>
+
+@if (Model == null)
+
+{
+    <div class="alert alert-warning">Payment not found.</div>
+
+}
+
+else
+
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="mb-2">Student</h5>
+            <p>
+
+                @(string.Join(' ', new[] { Model.User?.FirstName, Model.User?.LastName }.Where(x => !string.IsNullOrWhiteSpace(x))))
+
+                @if (!string.IsNullOrWhiteSpace(Model.User?.Email))
+
+                {
+
+                    @: (@Model.User.Email)
+
+                }
+            </p>
+
+            <h5 class="mb-2">Course &amp; Batch</h5>
+            <p>
+                <strong>Course:</strong> @Model.Course?.NameOfTheCourse <br />
+                <strong>Batch:</strong> @Model.Batch?.BatchName
+            </p>
+
+            <h5 class="mb-2">Payment</h5>
+            <p>
+                <strong>Amount:</strong> ₹@Model.PaymentAmount.ToString("N2") <br />
+                <strong>Type:</strong> @Model.PaymentType?.PaymentTypeName <br />
+                <strong>Paid On:</strong> @Model.PaymentOn.ToLocalTime().ToString("dd-MMM-yyyy HH:mm") <br />
+                <strong>Status:</strong>
+
+                @{
+
+                    var badge = Model.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Active ? "warning"
+
+                    : Model.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Approved ? "success"
+
+                    : Model.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Rejected ? "danger"
+
+                    : "secondary";
+
+                }
+                <span class="badge bg-@badge">@Model.PaymentStatus</span>
+            </p>
+
+            @if (Model.PaymentCard != null)
+
+            {
+                <h5 class="mb-2">Card (masked)</h5>
+                <p>
+                    <strong>Number:</strong> @Model.PaymentCard.CardNumber <br />
+                    <strong>Expiry:</strong> @Model.PaymentCard.ExpiryDate <br />
+                    <strong>Name:</strong> @Model.PaymentCard.CardHolderName
+                </p>
+
+            }
+
+            <div class="mt-3 d-flex flex-wrap gap-2">
+
+                @if (Model.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Active)
+
+                {
+                    <!-- Approve -->
+                    <form asp-controller="Payments" asp-action="Approve" method="post" class="d-inline">
+
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.PaymentId" />
+                        <button type="submit" class="btn btn-success">
+
+                            Approve
+                        </button>
+                    </form>
+
+                    <!-- Reject -->
+                    <form asp-controller="Payments" asp-action="Reject" method="post" class="d-inline">
+
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.PaymentId" />
+                        <button type="submit" class="btn btn-danger">
+
+                            Reject
+                        </button>
+                    </form>
+
+                }
+
+                <!-- Back -->
+                <a asp-controller="Payments" asp-action="Index" class="btn btn-secondary">
+
+                    Back
+                </a>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+

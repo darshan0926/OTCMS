@@ -1,0 +1,121 @@
+﻿
+@model OTCMS.Components.BatchContent
+
+@{
+    ViewData["Title"] = "Edit Batch Content";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Edit Batch Content</h1>
+
+<div class="card shadow-sm">
+    <form asp-action="Edit" enctype="multipart/form-data">
+    <div class="card-header bg-warning text-dark">
+        <h4 class="mb-0">Update Batch Content Information</h4>
+    </div>
+
+    <div class="card-body">
+        Edit
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <input type="hidden" asp-for="BCId" />
+
+            <!-- Batch Selection -->
+            <div class="form-group mb-3">
+                <label asp-for="BatchId" class="form-label">Select Batch</label>
+                <select asp-for="BatchId" class="form-control" asp-items="ViewBag.BatchId"></select>
+                <span asp-validation-for="BatchId" class="text-danger"></span>
+            </div>
+
+            <!-- Topic -->
+            <div class="form-group mb-3">
+                <label asp-for="Topic" class="form-label">Topic</label>
+                <input asp-for="Topic" class="form-control" placeholder="Enter Topic" />
+                <span asp-validation-for="Topic" class="text-danger"></span>
+            </div>
+
+            <!-- Date -->
+            <div class="form-group mb-3">
+                <label asp-for="OnDate" class="form-label">On Date</label>
+                <input asp-for="OnDate" class="form-control" />
+                <span asp-validation-for="OnDate" class="text-danger"></span>
+            </div>
+
+            <!-- Current Video -->
+            <div class="form-group mb-3">
+                <label class="form-label">Current Video</label>
+                @if (!string.IsNullOrEmpty(Model.VideoFilePath))
+                {
+                    <video src="@Model.VideoFilePath" width="500" height="250" controls >
+                        
+                    </video>
+                }
+                else
+                {
+                    <p class="text-muted">No video uploaded yet.</p>
+                }
+            </div>
+
+            <!-- Upload New Video -->
+            <div class="form-group mb-3">
+                <label asp-for="VideoFile" class="form-label">Upload New Video (MP4/WEBM)</label>
+                <input type="file" asp-for="VideoFile" class="form-control" accept="video/mp4,video/webm" />
+                <span asp-validation-for="VideoFile" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="VideoFilePath" />
+
+            <!-- Current Notes PDF -->
+            <div class="form-group mb-3">
+                <label class="form-label">Current Notes (PDF)</label>
+                @if (!string.IsNullOrEmpty(Model.NotesDocumentPath))
+                {
+                    <div class="border p-2">
+                        <a href="@Model.NotesDocumentPath" target="_blank" class="btn btn-outline-info btn-sm">
+                            View PDF
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No PDF uploaded yet.</p>
+                }
+            </div>
+
+            <!-- Upload New Notes -->
+            <div class="form-group mb-3">
+                <label asp-for="NotesDocument" class="form-label">Upload New Notes (PDF)</label>
+                <input type="file" asp-for="NotesDocument" class="form-control" accept="application/pdf" />
+                <span asp-validation-for="NotesDocument" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="NotesDocumentPath" />
+
+            <!-- Save Button -->
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Save Changes
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OTCMS</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OTCMS.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+
+</head>
+<body class="bg-light text-dark">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary border-bottom box-shadow mb-2 py-2 fw-bold">
+            <div class="container-fluid">
+
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/karyanova_logo5.png" alt="OTCMS Logo" height="40" class="me-2" />
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light"
+                               asp-controller="Home"
+                               asp-action="Index"
+                               asp-fragment="coursedetails">
+                                Explore Courses
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Videos" asp-action="SelectCourse">Sample Videos</a>
+                        </li>
+                        @* <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Course" asp-action="Index">Course</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Batches" asp-action="Index">Batches</a>
+                        </li> *@
+                       
+
+                    </ul>
+
+                    <ul class="navbar-nav mb-2 mb-lg-0 ">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light fw-bold"
+                               asp-area=""
+                               asp-controller="User"
+                               asp-action="Register">
+                                Register
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+  
+    <footer class="footer bg-primary text-light border-top">
+        <div class="container text-center py-1">
+            &copy; 2026 - OTCMS - <a class="text-info" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+<style>
+    .footer-custom {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-link {
+        color: #ccc;
+        text-decoration: none;
+    }
+
+        .footer-link:hover {
+            color: #00bcd4;
+            text-decoration: underline;
+        }
+
+    .footer-icon {
+        font-size: 1.4rem;
+        margin-right: 15px;
+        color: #ccc;
+        text-decoration: none;
+    }
+
+        .footer-icon:hover {
+            color: #00bcd4;
+        }
+
+    .text-accent {
+        color: #00bcd4;
+    }
+
+    .footer-custom {
+        background: linear-gradient(135deg, #000000, #0f0f0f, #00bcd4, #8e2de2);
+        background-size: 400% 400%;
+        animation: neonGradient 12s ease infinite;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* .footer-custom {
+
+                        background: linear-gradient(135deg, #0d1b2a, #00bcd4);
+
+                        width: 100%;
+
+                        margin: 0;
+
+                        padding: 0;
+
+                    } */
+
+
+    @* /* Animate the gradient for a glowing neon effect */
+
+@@keyframes neonGradient {
+
+    0% {background-position: 0% 50%;}
+
+    50% {background-position: 100% 50%;}
+
+    100% {background-position: 0% 50%;} *@
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+</html>

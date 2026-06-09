@@ -1,0 +1,63 @@
+﻿@model OTCMS.Components.Slider
+
+@{
+    ViewData["Title"] = "Delete Slider";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="text-danger mb-4">Delete Slider</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-danger text-white">
+        <h4 class="mb-0">Are you sure you want to delete this slider?</h4>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.SliderName)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.SliderName)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.SliderStatus)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.SliderStatus)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.SliderText)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.SliderText)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.SliderDescriptionText)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.SliderDescriptionText)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.SliderOrderNo)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.SliderOrderNo)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.CreatedOn)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.CreatedOn)</dd>
+
+            <dt class="col-sm-3 fw-bold">@Html.DisplayNameFor(model => model.SliderUrl)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.SliderUrl)</dd>
+
+            <dt class="col-sm-3 fw-bold">Slider Image</dt>
+            <dd class="col-sm-9">
+                <img src="@Model.SliderImagePath" alt="@Model.SliderName" class="img-thumbnail" width="300" height="200" />
+            </dd>
+        </dl>
+
+        <form asp-action="Delete" class="mt-4">
+            <input type="hidden" asp-for="SliderId" />
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Confirm Delete
+            </button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                <i class="bi bi-arrow-left"></i> Back to List
+            </a>
+        </form>
+    </div>
+</div>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>

@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model IEnumerable<OTCMS.Components.Feedback>
+
+<style>
+    /* ===== Page Styling ===== */
+    /* ===== Page Styling ===== */
+    .fb-list-page {
+        padding: 25px 15px;
+        background: #ffffff; /* ✅ plain white background */
+        min-height: 100vh;
+    }
+
+    }
+
+    .fb-list-title {
+        color: #0d47a1;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    /* ===== Table Card ===== */
+    .fb-table-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 16px 36px rgba(13, 71, 161, 0.18);
+        padding: 18px;
+    }
+
+    /* Table */ .fb-table thead th {
+        background: #e3f2fd !important;
+        color: #0d47a1;
+        font-weight: 700; /* slightly bolder */
+        border-bottom: 2px solid #bbdefb;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 16px; /* ✅ increased from 14px to 18px */
+        padding: 12px; /* more spacing for readability */
+    }
+
+    .fb-table tbody td {
+        vertical-align: top;
+        font-size: 15px; /* ✅ increased from 14px to 16px */
+        color: #37474f;
+        padding: 10px; /* more spacing for cleaner look */
+
+    .fb-table tbody tr:hover {
+        background-color: #f1f8ff;
+    }
+
+    /* Description wrapping */
+    .fb-desc {
+        max-width: 520px;
+        white-space: normal;
+        line-height: 1.5;
+    }
+
+    /* Badges */
+    .badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    /* Buttons */
+    .btn-blue {
+        background: linear-gradient(135deg, white, white);
+        color: #fff !important;
+        border: none;
+        border-radius: 25px;
+        padding: 6px 14px;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(13, 71, 161, 0.25);
+        }
+</style>
+
+<div class="fb-list-page">
+    <h3 class="fb-list-title">Feedback Management</h3>
+
+
+    <div class="fb-table-card" >
+        <div class="table-responsive" >
+            <table class="table table-bordered table-hover align-middle fb-table " >
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Name)</th>
+                        <th>@Html.DisplayNameFor(model => model.Subject)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayNameFor(model => model.Email)</th>
+                        <th>@Html.DisplayNameFor(model => model.Phone)</th>
+                        <th>@Html.DisplayNameFor(model => model.Status)</th>
+                        <th>@Html.DisplayNameFor(model => model.RemarksByAdmin)</th>
+                        <th>@Html.DisplayNameFor(model => model.CreatedOn)</th>
+                        <th style="width:180px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Subject)</td>
+                            <td class="fb-desc">@Html.DisplayFor(modelItem => item.Description)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                            <td>
+                                @switch (item.Status)
+                                {
+                                    case FbStatus.Open:
+                                        <span class="badge bg-warning text-dark">Open</span>
+                                        break;
+                                    case FbStatus.UnderProcessing:
+                                        <span class="badge bg-primary">Under Processing</span>
+                                        break;
+                                    case FbStatus.Closed:
+                                        <span class="badge bg-success">Closed</span>
+                                        break;
+                                    default:
+                                        <span class="badge bg-secondary">Unknown</span>
+                                        break;
+                                }
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.RemarksByAdmin)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CreatedOn)</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.FeedbackId" class="btn btn-sm btn-outline-primary">Give Remarks</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

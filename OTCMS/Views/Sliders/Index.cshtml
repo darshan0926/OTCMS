@@ -1,0 +1,65 @@
+﻿@model IEnumerable<OTCMS.Components.Slider>
+
+@{
+    ViewData["Title"] = "Slider List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Slider Management</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New Slider</a>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.SliderName)</th>
+                <th>@Html.DisplayNameFor(model => model.SliderStatus)</th>
+                <th>@Html.DisplayNameFor(model => model.SliderText)</th>
+                <th>@Html.DisplayNameFor(model => model.SliderDescriptionText)</th>
+                <th>@Html.DisplayNameFor(model => model.SliderOrderNo)</th>
+                <th>@Html.DisplayNameFor(model => model.CreatedOn)</th>
+                <th style="width:150px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                    @Html.DisplayNameFor(model => model.SliderUrl)
+                </th>
+                <th>@Html.DisplayNameFor(model => model.SliderImage)</th>
+                <th style="width:150px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.SliderName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SliderStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SliderText)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SliderDescriptionText)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SliderOrderNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CreatedOn)</td>
+                    <td style="max-width:150px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        @Html.DisplayFor(modelItem => item.SliderUrl)
+                    </td>
+                    <td>
+                        <img src="@item.SliderImagePath" class="img-thumbnail" style="max-width:150px; height:auto;" alt="@item.SliderName" />
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.SliderId" class="btn btn-primary btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.SliderId" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.SliderId" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>

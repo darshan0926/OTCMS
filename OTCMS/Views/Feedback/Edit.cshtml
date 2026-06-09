@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model OTCMS.Components.Feedback
+
+<style>
+    /* ===== Page Styling ===== */
+    .fb-edit-page {
+        padding: 25px 15px;
+        background: linear-gradient(135deg, #e3f2fd, #f5faff);
+        min-height: 100vh;
+    }
+
+    .fb-edit-title {
+        color: #0d47a1;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    /* ===== Card ===== */
+    .fb-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 16px 36px rgba(13, 71, 161, 0.18);
+        padding: 25px;
+    }
+
+    /* Labels */
+    .control-label {
+        font-weight: 600;
+        color: #0d47a1;
+    }
+
+    /* Buttons */
+    .btn-blue {
+        background: linear-gradient(135deg, #0000, #0d47a1);
+        color: #fff !important;
+        border: none;
+        border-radius: 25px;
+        padding: 8px 18px;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(13, 71, 161, 0.25);
+        }
+
+    .btn-secondary-link {
+        color: #0d47a1;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+        .btn-secondary-link:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<div class="fb-edit-page">
+    <h3 class="fb-edit-title"><i class="bi bi-pencil-square me-2"></i> Edit Feedback</h3>
+
+    <div class="fb-card">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="FeedbackId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Subject" class="control-label"></label>
+                <input asp-for="Subject" class="form-control" />
+                <span asp-validation-for="Subject" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="@ViewBag.StatusList"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="RemarksByAdmin" class="control-label"></label>
+                <textarea asp-for="RemarksByAdmin" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="RemarksByAdmin" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CreatedOn" class="control-label"></label>
+                <input asp-for="CreatedOn" class="form-control" />
+                <span asp-validation-for="CreatedOn" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-4">
+                <input type="submit" value="Save" class="btn btn-blue" />
+                <a asp-action="Index" class="btn-secondary-link ms-3">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,97 @@
+﻿@model List<OTCMS.Components.ViewModels.MyBatchItemViewModel>
+
+@{
+    ViewData["Title"] = "My Batches";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">My Batches</h2>
+        <span class="text-muted medium">
+            Total Enrolled: @(Model?.Count ?? 0)
+        </span>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            <strong>No enrollments yet</strong><br />
+            You are not enrolled in any batches.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var b in Model)
+            {
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <div class="card h-100 shadow-sm border-0 batch-card">
+                        <div class="card-body d-flex flex-column">
+
+                            <!-- Header -->
+                            <div class="mb-2">
+                                <h5 class="fw-bold fw-medium mb-1">@b.BatchName</h5>
+                                <span class="text fw-medium">@b.CourseName</span>
+                            </div>
+
+                            <!-- Metrics -->
+                            <div class="row fw-medium mt-2">
+                                <div class="col-6 mb-2">
+                                    <strong>Start</strong><br />
+                                    @b.StartDate.ToString("dd MMM yyyy")
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <strong>End</strong><br />
+                                    @b.EndDate.ToString("dd MMM yyyy")
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <strong>Timings</strong><br />
+                                    @b.Timings
+                                </div>
+                                <div class="col-6 mb-2">
+                                    <strong>Duration</strong><br />
+                                    @b.Duration
+                                </div>
+                            </div>
+
+                            <hr class="my-2" />
+
+                            <!-- Info -->
+                            <div class="mb-3">
+                                <div><strong>Fee:</strong> ₹@b.Fee</div>
+                                <div><strong>Contents:</strong> @b.ContentCount</div>
+                            </div>
+
+                            <!-- Footer -->
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <span class="badge @(b.BatchStatus ? "bg-success" : "bg-secondary")">
+                                    @(b.BatchStatus ? "Active" : "Inactive")
+                                </span>
+
+                                <a asp-controller="Student"
+                                   asp-action="BatchDetails"
+                                   asp-route-id="@b.BatchId"
+                                   class="btn btn-outline-primary btn-sm">
+                                    View Details
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .batch-card {
+        transition: all 0.2s ease-in-out;
+    }
+
+        .batch-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+</style>

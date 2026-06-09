@@ -1,0 +1,78 @@
+﻿
+@model OTCMS.Components.BatchContent
+
+@{
+    ViewData["Title"] = "Batch Content Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Batch Content Details</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-info text-white">
+        <h4 class="mb-0">Batch Content Information</h4>
+    </div>
+
+    <div class="card-body">
+        <dl class="row">
+
+            <dt class="col-sm-3 fw-bold">Topic</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Topic)</dd>
+
+            <dt class="col-sm-3 fw-bold">On Date</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.OnDate)</dd>
+
+            <!-- VIDEO FILE -->
+            <dt class="col-sm-3 fw-bold">Video File</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.VideoFilePath))
+                {
+                    <video src="@Model.VideoFilePath" width="500" height="250" controls >
+                    </video>
+                }
+                else
+                {
+                    <span class="text-muted">No Video Uploaded</span>
+                }
+            </dd>
+
+            <!-- PDF NOTES -->
+            <dt class="col-sm-3 fw-bold">Study Notes (PDF)</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.NotesDocumentPath))
+                {
+                    <a href="@Model.NotesDocumentPath" target="_blank" class="btn btn-outline-info btn-sm">
+                        View PDF
+                    </a>
+                }
+                else
+                {
+                    <span class="text-muted">No PDF Uploaded</span>
+                }
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">Batch</dt>
+            <dd class="col-sm-9">@Model.Batch?.BatchName</dd>
+
+        </dl>
+
+        <div class="mt-4">
+            <a asp-action="Edit" asp-route-id="@Model?.BCId" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i> Edit
+            </a>
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                <i class="bi bi-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>

@@ -1,0 +1,217 @@
+﻿@model IEnumerable<OTCMS.Components.Feedback>
+
+@using OTCMS.Components
+
+@{
+
+    ViewData["Title"] = "My Feedbacks";
+
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+
+}
+
+<style>
+
+    /* ===== Page Styling ===== */
+
+    .fb-list-page {
+        padding: 25px 15px;
+        background: linear-gradient(135deg, white, white);
+        min-height: 100vh;
+    }
+
+    .fb-list-title {
+        color: #0d47a1;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    /* ===== Empty State ===== */
+
+    .fb-empty {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 12px 30px rgba(13, 71, 161, 0.15);
+    }
+
+        .fb-empty p {
+            color: #455a64;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+    /* ===== Table Card ===== */
+
+    .fb-table-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 16px 36px rgba(13, 71, 161, 0.18);
+        padding: 18px;
+    }
+
+    /* Table */
+
+    .fb-table {
+        margin-bottom: 0;
+    }
+
+        .fb-table thead th {
+            background: #e3f2fd !important;
+            color: #0d47a1;
+            font-weight: 600;
+            border-bottom: 2px solid #bbdefb;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .fb-table tbody td {
+            vertical-align: top;
+            font-size: 15px;
+            color: #37474f;
+        }
+
+        .fb-table tbody tr:hover {
+            background-color: #f1f8ff;
+        }
+
+    /* Description wrapping */
+
+    .fb-desc {
+        max-width: 520px;
+        white-space: normal;
+        line-height: 1.5;
+    }
+
+    /* Badges */
+
+    .badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+    }
+
+    /* Buttons */
+
+    .btn-blue {
+        background: linear-gradient(135deg, #1e88e5, #0d47a1);
+        color: #fff !important;
+        border: none;
+        border-radius: 25px;
+        padding: 8px 18px;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .btn-blue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(13, 71, 161, 0.25);
+        }
+
+    /* Responsive Fix */
+
+    @@media (max-width: 768px) {
+
+        .fb-desc {
+            max-width: 100%;
+        }
+    }
+</style>
+
+<div class="fb-list-page">
+
+    <h3 class="fb-list-title" style="font-size:xx-large">My Feedbacks</h3>
+
+    @if (Model == null || !Model.Any())
+
+    {
+        <div class="fb-empty">
+            <p>You haven't submitted any feedback yet.</p>
+            <a asp-controller="Feedback"
+               asp-action="Create"
+               class="btn btn-blue btn-sm">
+
+                Submit Feedback
+            </a>
+        </div>
+
+    }
+
+    else
+
+    {
+        <div class="fb-table-card">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle fb-table">
+                    <thead>
+                        <tr>
+                            <th style="width:160px;">Created On</th>
+                            <th>Subject</th>
+                            <th>Description</th>
+                            <th style="width:140px;">Status</th>
+                            <th style="width:220px;">Admin Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var f in Model)
+
+                        {
+                            <tr>
+                                <td class="text-center">
+
+                                    @f.CreatedOn.ToString("dd-MMM-yyyy HH:mm")
+                                </td>
+                                <td>@f.Subject</td>
+                                <td class="fb-desc">@f.Description</td>
+                                <td class="text-center">
+
+                                    @switch (f.Status)
+
+                                    {
+
+                                        case FbStatus.Open:
+                                            <span class="badge bg-warning text-dark">Open</span>
+
+                                            break;
+
+                                        case FbStatus.UnderProcessing:
+                                            <span class="badge bg-primary">Under Processing</span>
+
+                                            break;
+
+                                        case FbStatus.Closed:
+                                            <span class="badge bg-success">Closed</span>
+
+                                            break;
+
+                                        default:
+                                            <span class="badge bg-secondary">Unknown</span>
+
+                                            break;
+
+                                    }
+                            </td>
+                            <td>
+
+                                @(string.IsNullOrWhiteSpace(f.RemarksByAdmin)
+
+                                                            ? "-"
+
+                                                            : f.RemarksByAdmin)
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    }
+
+</div>

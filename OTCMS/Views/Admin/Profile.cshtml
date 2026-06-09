@@ -1,0 +1,104 @@
+﻿@model OTCMS.Components.User
+@{
+    ViewData["Title"] = "Admin Profile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="profile-wrapper">
+        <div class="card shadow-lg border-0">
+            <div class="card-body p-4 p-md-5">
+
+                <!-- Header -->
+                <div class="text-center mb-3">
+                    <h3 class="mb-0">Admin Profile</h3>
+                    <p class="text-muted mb-0">View your account details</p>
+                </div>
+
+                <!-- Alerts -->
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["Error"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+
+                <hr class="mb-4" />
+
+                <!-- Profile Details -->
+                <dl class="row mb-4">
+                    <dt class="col-sm-4 text-muted">Role</dt>
+                    <dd class="col-sm-8">@Model.role?.RoleName</dd>
+
+                    <dt class="col-sm-4 text-muted">First Name</dt>
+                    <dd class="col-sm-8">@Model.FirstName</dd>
+
+                    <dt class="col-sm-4 text-muted">Last Name</dt>
+                    <dd class="col-sm-8">@Model.LastName</dd>
+
+                    <dt class="col-sm-4 text-muted">Email</dt>
+                    <dd class="col-sm-8">
+                        <a href="mailto:@Model.Email">@Model.Email</a>
+                    </dd>
+
+                    <dt class="col-sm-4 text-muted">Mobile</dt>
+                    <dd class="col-sm-8">@Model.Mobile</dd>
+
+                    <dt class="col-sm-4 text-muted">Status</dt>
+                    <dd class="col-sm-8">
+                        @if (Model.Status)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </dd>
+                </dl>
+
+                <!-- Actions -->
+                <div class="card-footer d-flex gap-2">
+                    <a asp-controller="Admin" asp-action="Index" class="btn btn-outline-secondary">Back to Dashboard</a>
+
+                    <a asp-controller="Admin" asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(135deg, #f5f7fb 0%, #e9effd 100%);
+        min-height: 100vh;
+    }
+
+    .profile-wrapper {
+        width: 100%;
+        max-width: 560px;
+        padding: 16px;
+    }
+
+    .card {
+        border-radius: 16px;
+    }
+
+    .card-body {
+        border-radius: 16px;
+    }
+
+    hr {
+        opacity: .15;
+    }
+</style>

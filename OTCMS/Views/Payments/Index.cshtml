@@ -1,0 +1,154 @@
+﻿@model IEnumerable<OTCMS.Components.Payment>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+
+<h2 class="mb-3">Payments - @ViewBag.CurrentStatus</h2>
+
+@if (TempData["msg"] != null)
+
+{
+    <div class="alert alert-info">@TempData["msg"]</div>
+
+}
+
+
+<div class="mb-3 d-flex gap-2">
+
+    <a class="btn btn-outline-primary btn-sm"
+       asp-controller="Payments"
+       asp-action="Index"
+       asp-route-status="Active">
+        Active (Awaiting) (@ViewBag.ActiveCount)
+    </a>
+
+    <a class="btn btn-outline-success btn-sm"
+       asp-controller="Payments"
+       asp-action="Index"
+       asp-route-status="Approved">
+        Approved (@ViewBag.ApprovedCount)
+    </a>
+
+    <a class="btn btn-outline-danger btn-sm"
+       asp-controller="Payments"
+       asp-action="Index"
+       asp-route-status="Rejected">
+        Rejected (@ViewBag.RejectedCount)
+    </a>
+
+</div>
+
+
+<table class="table table-bordered table-striped align-middle">
+    <thead>
+        <tr>
+            <th style="width:60px;">#</th>
+            <th>Student</th>
+            <th>Course</th>
+            <th>Batch</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Paid On</th>
+            <th>Status</th>
+            <th style="width:260px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model != null && Model.Any())
+
+        {
+
+            var i = 1;
+
+            foreach (var p in Model)
+
+            {
+                <tr>
+                    <td>@i</td>
+                    <td>@(string.Join(' ', new[] { p.User?.FirstName, p.User?.LastName }.Where(x => !string.IsNullOrWhiteSpace(x))))</td>
+                    <td>@p.Course?.NameOfTheCourse</td>
+                    <td>@p.Batch?.BatchName</td>
+                    <td>
+
+                        ₹@p.PaymentAmount.ToString("N2")
+                    </td>
+                    <td>@p.PaymentType?.PaymentTypeName</td>
+                    <td>@p.PaymentOn.ToLocalTime().ToString("dd-MMM-yyyy HH:mm")</td>
+                    <td>
+
+                        @{
+
+                            var badge = p.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Active ? "warning"
+
+                            : p.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Approved ? "success"
+
+                            : p.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Rejected ? "danger"
+
+                            : "secondary";
+
+                        }
+                        <span class="badge bg-@badge">@p.PaymentStatus</span>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-wrap gap-2">
+
+                            @if (p.PaymentStatus == OTCMS.Components.ViewModels.PaymentStatus.Active)
+
+                            {
+                                <form asp-controller="Payments" asp-action="Approve" method="post" class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@p.PaymentId" />
+                                    <button type="submit" class="btn btn-success btn-sm">
+
+                                        Approve
+                                    </button>
+                                </form>
+
+                                <form asp-controller="Payments" asp-action="Reject" method="post" class="d-inline">
+
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@p.PaymentId" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+
+                                        Reject
+                                    </button>
+                                </form>
+
+                            }
+
+                            <a class="btn btn-outline-secondary btn-sm"
+                               asp-controller="Payments"
+                               asp-action="Details"
+                               asp-route-id="@p.PaymentId">
+
+                                Details
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+
+                i++;
+
+            }
+
+        }
+
+        else
+
+        {
+            <tr>
+                <td colspan="9" class="text-center text-muted">No payments to show.</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+

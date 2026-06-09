@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+    var updatedOn = "February 2026";
+}
+
+<div class="container py-4">
+
+    <!-- Page Header -->
+    <div class="p-4 p-md-5 mb-4 rounded-4 shadow-sm hero-privacy">
+        <div class="d-flex align-items-start align-items-md-center justify-content-between flex-column flex-md-row gap-3">
+            <div>
+                <h1 class="display-6 fw-bold mb-2">Privacy Policy</h1>
+                <p class="mb-0 text-white-50">
+                    This policy explains how we collect, use, and protect your information on our KaryaNova.
+                </p>
+                <small class="text-white-50 d-block mt-2">
+                    <i class="bi bi-clock-history me-1"></i> Last updated: <span class="fw-semibold">@updatedOn</span>
+                </small>
+            </div>
+            <div class="text-md-end">
+                <span class="badge rounded-pill bg-warning text-dark px-3 py-2">
+                    <i class="bi bi-shield-lock me-1"></i> Security First
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert - Important -->
+    <div class="alert alert-danger border-0 shadow-sm rounded-4" role="alert">
+        <div class="d-flex gap-3 align-items-start">
+            <div class="fs-4">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <div>
+                <h5 class="alert-heading mb-1">Important: Account Sharing is Not Allowed</h5>
+                <p class="mb-0">
+                    <strong>Login credentials must not be shared.</strong> If we detect account sharing or misuse,
+                    the account may be <strong>deactivated immediately</strong> to protect platform security and content.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<style>
+    .hero-privacy {
+        background: radial-gradient(1200px circle at 10% 10%, rgba(13,110,253,.35), transparent 40%), radial-gradient(900px circle at 90% 30%, rgba(25,135,84,.28), transparent 45%), linear-gradient(135deg, #0b132b, #1c2541);
+        color: #fff;
+    }
+
+    /* Sticky TOC spacing */
+    .toc-card {
+        top: 1rem;
+    }
+
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>

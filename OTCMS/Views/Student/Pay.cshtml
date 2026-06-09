@@ -1,0 +1,201 @@
+﻿@model OTCMS.Components.ViewModels.PaymentCreateViewModel
+@{
+    ViewData["Title"] = "Make Payment";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+
+            <!-- ✅ Header -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Secure Payment for @Model.CourseName</h2>
+                <p class="text-muted">Complete your enrollment by making a payment</p>
+            </div>
+
+            <!-- ✅ Payment Card -->
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+
+                    <form asp-action="Pay"
+                          asp-route-batchId="@Model.BatchId"
+                          asp-route-courseId="@Model.CourseId"
+                          method="post">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        @if (ViewBag.FeeChanged == true)
+                        {
+                            <div class="alert alert-warning d-flex align-items-center mb-3" role="alert">
+                                <div>
+                                    <strong>Heads up:</strong>
+                                    The course fee was updated from
+                                    <strong>₹@String.Format("{0:N0}", (decimal)ViewBag.OldAmount)</strong>
+                                    to
+                                    <strong>₹@String.Format("{0:N0}", (decimal)ViewBag.NewAmount)</strong>.
+                                    The amount below has been updated. Please review and click <em>Pay Securely</em> again.
+                                </div>
+                            </div>
+                        }
+
+                        <!-- Hidden -->
+                        <input type="hidden" asp-for="CourseId" />
+                        <input type="hidden" asp-for="BatchId" />
+
+                        <!-- ✅ Course + Batch Summary -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Course</label>
+                                <input class="form-control" value="@Model.CourseName" readonly />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Batch</label>
+                                <input class="form-control" value="@Model.BatchName" readonly />
+                            </div>
+                        </div>
+
+                        <!-- ✅ Amount Highlight -->
+                        <div class="alert alert-primary text-center mb-4">
+                            <h5 class="mb-1 fw-bold">Total Payable</h5>
+                            <h2 class="fw-bold text-primary mb-0">
+                                ₹@Model.PaymentAmount
+                            </h2>
+                        </div>
+
+                        <input type="hidden" asp-for="PaymentAmount" />
+
+                        <!-- ✅ Payment Method -->
+                        <div class="mb-3">
+                            <label asp-for="PaymentTypeId" class="form-label fw-semibold">
+                                Payment Method
+                            </label>
+                            <select asp-for="PaymentTypeId"
+                                    asp-items="Model.PaymentTypeOptions"
+                                    class="form-select">
+                            </select>
+                            <span asp-validation-for="PaymentTypeId" class="text-danger"></span>
+                        </div>
+
+                        <hr class="my-4" />
+
+                        <!-- ✅ Card Details (with credit/debit UI) -->
+                        <div class="credit-card">
+                            <div class="card-number mb-3">
+                                <label>CARD NUMBER</label>
+                                <input asp-for="CardNumberPlain" class="card-input number" maxlength="16" placeholder="#### #### #### ####" />
+                                <span asp-validation-for="CardNumberPlain" class="text-danger"></span>
+                            </div>
+                            <div class="card-footer">
+                                <div class="holder">
+                                    <label>CARD HOLDER</label>
+                                    <input asp-for="CardHolderName" class="card-input" placeholder="FULL NAME" />
+                                    <span asp-validation-for="CardHolderName" class="text-danger"></span>
+                                </div>
+                                <div class="expiry">
+                                    <label>EXPIRY</label>
+                                    <input asp-for="ExpiryMMYY" class="card-input" placeholder="MM/YY" />
+                                    <span asp-validation-for="ExpiryMMYY" class="text-danger"></span>
+                                </div>
+                                <div class="ccv">
+                                    <label>CCV</label>
+                                    <input asp-for="CCV" class="card-input" maxlength="4" placeholder="***" />
+                                    <span asp-validation-for="CCV" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ✅ Actions -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a asp-controller="Student"
+                               asp-action="CourseList"
+                               asp-route-id="@Model.CourseId"
+                               class="btn btn-outline-secondary px-4">
+                                Cancel
+                            </a>
+
+                            <button type="submit" class="btn btn-success px-5">
+                                Pay Securely
+                            </button>
+                        </div>
+
+                        <!-- ✅ Trust Note -->
+                        <div class="text-center text-muted small mt-3">
+                            🔒 Your payment information is securely processed
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @* <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const paymentSelect = document.querySelector("[name='PaymentTypeId']");
+            const creditCardDiv = document.querySelector(".credit-card");
+
+            paymentSelect.addEventListener("change", function () {
+                const selected = this.options[this.selectedIndex].text.toLowerCase();
+                creditCardDiv.classList.remove("credit-selected", "debit-selected");
+
+                if (selected.includes("credit")) {
+                    creditCardDiv.classList.add("credit-selected");
+                } else if (selected.includes("debit")) {
+                    creditCardDiv.classList.add("debit-selected");
+                }
+            });
+        });
+    </script> *@
+}
+
+<style>
+    /* Default card look (blue gradient) */
+    .credit-card {
+        background: linear-gradient(135deg, #1e3c72, #2a5298); /* deep blue gradient */
+        color: #fff;
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+      
+
+    .card-input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.2);
+        color: #fff;
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+    }
+
+        .card-input::placeholder {
+            color: gray;
+        }
+
+  
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 15px;
+    }
+
+    .holder {
+        flex: 2;
+    }
+
+    .expiry, .ccv {
+        flex: 1;
+    }
+
+</style>

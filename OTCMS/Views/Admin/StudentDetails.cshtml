@@ -1,0 +1,73 @@
+﻿@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "StudentDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Page Header -->
+<div class="p-3 mb-4 fw-bolder text-black">
+    <h2 class="mb-0"><i class="bi bi-people-fill me-1"></i> Student Details</h2>
+</div>
+
+<!-- Search Bar -->
+<form asp-controller="Admin" asp-action="StudentDetails" method="get" class="mb-3 input-group">
+    <input type="text" name="searchTerm" value="@Context.Request.Query["searchTerm"]"
+           class="form-control" placeholder="Search by name or email" />
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a asp-controller="Admin" asp-action="StudentDetails" class="btn btn-secondary">Clear</a>
+</form>
+
+<!-- Accordion -->
+<div class="accordion" id="studentAccordion">
+    @if (Model != null && Model.Any())
+    {
+        var i = 0;
+        foreach (var item in Model)
+        {
+            var student = item.Student;
+            var batchDetails = item.BatchDetails;
+            var collapseId = $"collapse{i}";
+            var headingId = $"heading{i}";
+
+            <div class="accordion-item mb-3 shadow-sm border rounded">
+                <h2 class="accordion-header" id="@headingId">
+                    <button class="accordion-button collapsed fw-bold text-primary" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#@collapseId"
+                            aria-expanded="false" aria-controls="@collapseId">
+                        <i class="bi bi-person-circle me-2"></i>
+                        @student.FirstName @student.LastName
+                        <span class="text-muted ms-2">(@student.Email)</span>
+                    </button>
+                </h2>
+                <div id="@collapseId" class="accordion-collapse collapse"
+                     aria-labelledby="@headingId" data-bs-parent="#studentAccordion">
+                    <div class="accordion-body bg-light">
+                        <h5 class="text-secondary mb-3">
+                            <i class="bi bi-journal-bookmark-fill me-2"></i> Course, Batch & Payment Details
+                        </h5>
+                        <ul class="list-group list-group-flush">
+                            @foreach (var bd in batchDetails)
+                            {
+                                <li class="list-group-item">
+                                    <strong>Course:</strong> @bd.Batch?.Course?.NameOfTheCourse <br />
+                                    <strong>Batch:</strong> @bd.Batch?.BatchName <br />
+                                    <strong>Payment:</strong>
+                                    <span class="text-success">₹@bd.Payment?.PaymentAmount.ToString("N2")</span>
+                                    (@bd.Payment?.PaymentType?.PaymentTypeName)
+                                    on <span class="text-muted">@bd.Payment?.PaymentOn.ToLocalTime().ToString("dd-MMM-yyyy")</span><br />
+                                    <strong>Enrolled On:</strong> @bd.EnrolledOn.ToString("dd-MMM-yyyy")
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            i++;
+        }
+    }
+    else
+    {
+        <p class="text-muted">No student records found.</p>
+    }
+</div>

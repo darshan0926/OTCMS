@@ -1,0 +1,90 @@
+﻿@model OTCMS.Components.Course
+
+@{
+    ViewData["Title"] = "Create Course";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Create Course</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Course Information</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CourseId" class="form-label">Course Id</label>
+                <input asp-for="CourseId" class="form-control" placeholder="Enter Course Id" />
+                <span asp-validation-for="CourseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="NameOfTheCourse" class="form-label">Name Of The Course</label>
+                <input asp-for="NameOfTheCourse" class="form-control" placeholder="Enter Course Name" />
+                <span asp-validation-for="NameOfTheCourse" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CourseDescription" class="form-label">Course Description</label>
+                <textarea asp-for="CourseDescription" class="form-control" rows="4" placeholder="Enter Course Description"></textarea>
+                <span asp-validation-for="CourseDescription" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="Status" />
+                <label class="form-check-label" asp-for="Status">Active Status</label>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="form-label">Selected Course Logo</label>
+                <div class="border p-2 text-center">
+                    <img src="" id="prevCourseLogo" class="img-thumbnail" width="200" height="200" />
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CourseLogoImage" class="form-label">Upload Course Logo</label>
+                <input type="file" asp-for="CourseLogoImage" class="form-control" onchange="PreviewCourseLogo(event)" />
+                <span asp-validation-for="CourseLogoImage" class="text-danger"></span>
+            </div>
+
+            <!-- New Section for Course Content PDF -->
+            <div class="form-group mb-3">
+                <label asp-for="CourseContentFile" class="form-label">Upload Course Content (PDF)</label>
+                <input type="file" asp-for="CourseContentFile" class="form-control" accept="application/pdf" />
+                <span asp-validation-for="CourseContentFile" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-4">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>
+
+<script type="text/javascript">
+    function PreviewCourseLogo(event) {
+        var refImg = document.getElementById('prevCourseLogo');
+        refImg.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

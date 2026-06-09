@@ -1,0 +1,118 @@
+﻿@model OTCMS.Components.Slider
+
+@{
+    ViewData["Title"] = "Edit Slider";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Edit Slider</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-warning text-dark">
+        <h4 class="mb-0">Update Slider Information</h4>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+            <input type="hidden" asp-for="SliderId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="SliderName" class="form-label">Slider Name</label>
+                <input asp-for="SliderName" class="form-control" placeholder="Enter slider name" />
+                <span asp-validation-for="SliderName" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="SliderStatus" />
+                <label class="form-check-label" asp-for="SliderStatus">Active Status</label>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SliderText" class="form-label">Slider Text</label>
+                <input asp-for="SliderText" class="form-control" placeholder="Enter slider text" />
+                <span asp-validation-for="SliderText" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SliderDescriptionText" class="form-label">Description</label>
+                <textarea asp-for="SliderDescriptionText" class="form-control" rows="3" placeholder="Enter description"></textarea>
+                <span asp-validation-for="SliderDescriptionText" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SliderOrderNo" class="form-label">Order No</label>
+                <input asp-for="SliderOrderNo" class="form-control" />
+                <span asp-validation-for="SliderOrderNo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CreatedOn" class="form-label">Created On</label>
+                <input asp-for="CreatedOn" type="date" class="form-control" />
+                <span asp-validation-for="CreatedOn" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SliderUrl" class="form-label">Slider URL</label>
+                <input asp-for="SliderUrl" class="form-control" placeholder="Enter URL" />
+                <span asp-validation-for="SliderUrl" class="text-danger"></span>
+            </div>
+
+            <!-- Current Image -->
+            <div class="form-group mb-3">
+                <label class="form-label">Current Image</label>
+                <div class="border p-2 text-center">
+                    <img src="@Model.SliderImagePath" alt="@Model.SliderName" class="img-thumbnail" width="200" height="200" />
+                </div>
+            </div>
+
+            <!-- Preview Selected Image -->
+            <div class="form-group mb-3">
+                <label class="form-label">Selected Image Preview</label>
+                <div class="border p-2 text-center">
+                    <img src="" id="prevSliderImage" class="img-thumbnail" width="200" height="200" />
+                </div>
+            </div>
+
+            <!-- Upload New Image -->
+            <div class="form-group mb-3">
+                <label asp-for="SliderImage" class="form-label">Upload New Image</label>
+                <input type="file" asp-for="SliderImage" class="form-control" onchange="PreviewSliderImage(event)" />
+                <span asp-validation-for="SliderImage" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="SliderImagePath" />
+
+            <div class="form-group mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Save Changes
+                </button>
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>
+
+<script type="text/javascript">
+    function PreviewSliderImage(event) {
+        var refImg = document.getElementById('prevSliderImage');
+        refImg.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

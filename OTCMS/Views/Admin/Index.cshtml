@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4 align-content-center text-center">Admin DashBoard</h2>
+
+    <div class="row g-4">
+        <!-- Course -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a asp-controller="Course" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-book-open fa-3x mb-3 text-primary"></i>
+                        <h5 class="card-title">Course (@ViewBag.countcourse)</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Batches -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a asp-controller="Batches" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-users fa-3x mb-3 text-success"></i>
+                        <h5 class="card-title">Batches (@ViewBag.countbatch)</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Slider -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a asp-controller="Sliders" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-images fa-3x mb-3 text-warning"></i>
+                        <h5 class="card-title">Slider (@ViewBag.countsl)</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Videos Gallery -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a asp-controller="Videos" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-video fa-3x mb-3 text-danger"></i>
+                        <h5 class="card-title">Videos Gallery (@ViewBag.countvg)</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- BatchContent -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a asp-controller="BatchContents" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-layer-group fa-3x mb-3 text-info"></i>
+                        <h5 class="card-title">Batch Content (@ViewBag.countbc)</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Payments -->
+        <div class="col-12 col-sm-6 col-lg-4">
+            <a asp-controller="Payments" asp-action="Index" class="text-decoration-none">
+                <div class="card shadow-sm dashboard-card">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-credit-card fa-3x mb-3 text-secondary"></i>
+                        <h5 class="card-title">Payments</h5>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-card {
+        border-radius: 14px;
+        transition: transform .15s ease, box-shadow .15s ease;
+        cursor: pointer;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,.12) !important;
+        }
+
+        .dashboard-card .card-title {
+            margin: 0;
+            font-weight: 600;
+            color: #222;
+        }
+</style>

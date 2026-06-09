@@ -1,0 +1,122 @@
+﻿
+@model IEnumerable<OTCMS.Components.Video>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Video Management</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Create New Video</a>
+    <form asp-action="Index"> 
+        <div class="form-actions no-color my-3">
+            <div class="card shadow-sm border-0 p-3">
+                <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+
+                    <!-- Label + Input Side by Side -->
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="fw-semibold mb-0">Find by Course:</label>
+
+                        <input type="text"
+                               name="SearchString"
+                               class="form-control"
+                               style="min-width: 240px;"
+                               placeholder="Enter title..."
+                               value="@ViewData["CurrentFilter"]" />
+                    </div>
+
+                    <!-- Search Button -->
+                    <input type="submit" value="Search" class="btn btn-primary px-4" />
+
+                    <!-- Reset Button -->
+                    <a asp-action="Index">Reset</a>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</p>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.VideoTitle)
+            </th>
+
+            <th style="width:450px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                @Html.DisplayNameFor(model => model.VideoDescription)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.VideoLink)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.course)
+            </th>
+
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VideoTitle)
+                </td>
+
+                <td style="max-width:450px; overflow:hidden; text-overflow:ellipsis;">
+                    @Html.DisplayFor(modelItem => item.VideoDescription)
+                </td>
+
+                <td>
+                    @Html.Raw(item.VideoLink)
+                </td>
+
+                <td>
+                    @(item.Status ? "Active" : "Inactive")
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.course.NameOfTheCourse)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.CourseVideoId" class="btn btn-primary btn-sm">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.CourseVideoId" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.CourseVideoId" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")'); */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>
+

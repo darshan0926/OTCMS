@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="OTCMS.Components/OTCMS.Components.csproj" Id="3c451025-8f68-40e3-b63c-75e3c84446a1" />
+  <Project Path="OTCMS.Dal/OTCMS.Dal.csproj" Id="0e4d8eeb-94df-4c7f-a328-9ada63d8e937" />
+  <Project Path="OTCMS/OTCMS.csproj" />
+</Solution>

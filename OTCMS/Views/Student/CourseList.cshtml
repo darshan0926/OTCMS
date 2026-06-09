@@ -1,0 +1,105 @@
+﻿@model OTCMS.Components.Course
+
+@{
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+
+    var enrolled = ViewBag.EnrolledBatchIds as List<int> ?? new List<int>();
+    var paid = ViewBag.PaidBatchIds as List<int> ?? new List<int>();
+}
+
+<div class="container py-4">
+
+    <!-- Course Header -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h2 class="fw-bold text-primary">@Model.NameOfTheCourse</h2>
+            <p class="text" style="font-size:large">@Model.CourseDescription</p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+            <img src="@Url.Content(@Model.CourseLogoImagePath)"
+                 alt="@Model.NameOfTheCourse Logo"
+                 class="img-fluid rounded shadow-sm"
+                 style="max-height:120px;" />
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Batches -->
+    <h4 class="fw-semibold mb-3">Available Batches</h4>
+
+    @if (Model.Batches != null && Model.Batches.Any())
+    {
+        <div class="row g-4">
+            @foreach (var batch in Model.Batches)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6">
+                    <div class="card h-100 shadow-sm border-0 batch-card">
+                        <div class="card-body d-flex flex-column">
+
+                            <h5 class="fw-bold mb-2">@batch.BatchName</h5>
+
+                            <ul class="list-unstyled small text mb-3" style="font-size:medium">
+                                <li><strong>Start:</strong> @batch.StartDate.ToString("dd MMM yyyy")</li>
+                                <li><strong>End:</strong> @batch.EndDate.ToString("dd MMM yyyy")</li>
+                                <li><strong>Trainer:</strong> @batch.HandledBy</li>
+                                <li><strong>Timings:</strong> @batch.Timings</li>
+                                <li><strong>Duration:</strong> @batch.Duration</li>
+                                <li class="fw-semibold text-dark mt-2">
+                                    Fee: ₹@batch.Fee
+                                </li>
+                            </ul>
+
+                            <div class="mt-auto">
+                                @if (enrolled.Contains(batch.BatchId))
+                                {
+                                    <a asp-controller="Student"
+                                       asp-action="BatchDetails"
+                                       asp-route-id="@batch.BatchId"
+                                       class="btn btn-success w-100">
+                                        Explore Batch
+                                    </a>
+                                }
+                                else if (paid.Contains(batch.BatchId))
+                                {
+                                    <button class="btn btn-warning w-100" disabled>
+                                        Payment Submitted
+                                    </button>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Student"
+                                       asp-action="Pay"
+                                       asp-route-batchId="@batch.BatchId"
+                                       asp-route-courseId="@Model.CourseId"
+                                       class="btn btn-primary w-100">
+                                        Enroll Now
+                                    </a>
+                                }
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            No active batches available for this course.
+        </div>
+    }
+</div>
+
+<!-- ✅ Page-specific styling -->
+<style>
+    .batch-card {
+        transition: all .2s ease-in-out;
+    }
+
+        .batch-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+        }
+</style>

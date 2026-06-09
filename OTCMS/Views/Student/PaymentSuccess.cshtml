@@ -1,0 +1,181 @@
+﻿@model OTCMS.Components.Payment
+
+@{
+    ViewData["Title"] = "Payment Submitted";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+
+            <div class="text-center mb-4">
+                <div class="mb-3">
+                    <span class="display-1 text-success d-inline-block check-pop">✔</span>
+                </div>
+                <h2 class="fw-bold text-success">Payment Submitted Successfully</h2>
+                <p class="text-muted">
+                    Thank you for your payment. Your enrollment will be activated after admin approval.
+                </p>
+            </div>
+
+            <div class="alert alert-success text-center fw-semibold shadow-sm">
+                Payment Status:
+                <span class="badge bg-success ms-2">
+                    @Model.PaymentStatus
+                </span>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-4 receipt-card">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3 border-bottom pb-2">Payment Details</h5>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Course</span>
+                            <span>@Model.Course?.NameOfTheCourse</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Batch</span>
+                            <span>@Model.Batch?.BatchName</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Payment Type</span>
+                            <span>@Model.PaymentType?.PaymentTypeName</span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Amount Paid</span>
+                            <span class="fw-bold text-primary">
+                                ₹@Model.PaymentAmount
+                            </span>
+                        </li>
+
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span class="fw-semibold">Paid On</span>
+                            <span>
+                                @Model.PaymentOn.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")
+                            </span>
+                        </li>
+
+                        @if (Model.PaymentCard != null)
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="fw-semibold">Card Number</span>
+                                <span>
+                                    @Model.PaymentCard.CardNumber
+                                    <span class="text-muted small">
+                                        (@Model.PaymentCard.ExpiryDate)
+                                    </span>
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a asp-action="Index" class="btn btn-primary btn-lg px-5 rounded-pill shadow">
+                    Back to Dashboard
+                </a>
+
+                <a asp-action="MyPayments" class="btn btn-outline-secondary btn-lg px-4 ms-2 rounded-pill">
+                    View My Payments
+                </a>
+            </div>
+
+            <div class="text-center small text-muted mt-4">
+                ⏳ Once approved by admin, you'll be able to access your batch content.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Animation for the checkmark */
+    .check-pop {
+        animation: checkBounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Animation for the card sliding up */
+    .receipt-card {
+        animation: slideIn 0.6s ease-out both;
+        animation-delay: 0.2s;
+    }
+
+    @@keyframes checkBounce {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @@keyframes slideIn {
+        0% {
+            transform: translateY(40px);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .list-group-item {
+        padding: 1rem 0;
+        background-color: transparent;
+    }
+</style>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // 1. Initial big center blast
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#28a745', '#007bff', '#ffc107', '#ffffff']
+            });
+
+            // 2. Continuous side cannons for 3 seconds
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#28a745', '#007bff']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#28a745', '#007bff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        });
+    </script>
+}

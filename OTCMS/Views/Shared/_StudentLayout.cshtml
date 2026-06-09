@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - OTCMS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/OTCMS.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <style>
+        /* Premium Profile Card Styling - Matched to Admin */
+        .profile-dropdown-card {
+            min-width: 280px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Card Header with Exact Royal Blue */
+        .profile-header {
+            background: linear-gradient(135deg, #0052D4 100%);
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+            .profile-header p {
+                font-size: 1.1rem;
+                letter-spacing: 0.5px;
+                margin-bottom: 2px;
+                font-weight: 700;
+            }
+
+            .profile-header small {
+                opacity: 0.85;
+                font-weight: 400;
+                text-transform: uppercase;
+                font-size: 0.7rem;
+                letter-spacing: 1px;
+            }
+
+        /* Menu Body */
+        .dropdown-menu-body {
+            padding: 12px;
+            background: #ffffff;
+        }
+
+        .dropdown-item {
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            font-weight: 500;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+            .dropdown-item:hover {
+                background-color: #f4f8ff;
+                color: #0d6efd;
+                transform: translateX(5px);
+                border: 1px solid #e0ebff;
+            }
+
+            /* Icon Container Styling */
+            .dropdown-item i {
+                font-size: 1rem;
+                width: 35px;
+                height: 35px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #f8f9fa;
+                border-radius: 10px;
+                margin-right: 12px;
+                transition: all 0.3s ease;
+            }
+
+            .dropdown-item:hover i {
+                background: #ffffff;
+                transform: scale(1.1) rotate(5deg);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            }
+
+        /* Logout Button Custom Style */
+        .logout-btn {
+            background: #fff5f5;
+            color: #dc3545;
+            border: 1px solid #ffe3e3;
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 8px;
+            transition: all 0.3s ease;
+        }
+
+            .logout-btn:hover {
+                background: #dc3545;
+                color: white;
+                box-shadow: 0 8px 20px rgba(220, 53, 69, 0.25);
+                transform: translateY(-2px);
+            }
+
+        /* Remove default Bootstrap arrow */
+        .nav-link.dropdown-toggle::after {
+            display: none;
+        }
+
+        /* Navbar tweaks */
+        .navbar-nav .nav-link {
+            padding-right: 1rem;
+            padding-left: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-light text-dark d-flex flex-column min-vh-100">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom shadow-sm mb-3 fw-bold">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Student" asp-action="Index">
+                    <img src="~/images/karyanova_logo5.png" alt="OTCMS Logo" height="40" class="me-2" />
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item"><a class="nav-link text-light" asp-controller="Student" asp-action="Index">Student Home</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-controller="Student" asp-action="Index" asp-fragment="coursedetails">Explore Courses</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-controller="Student" asp-action="SelectCourseStudent">Sample Videos</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-controller="Student" asp-action="MyBatches">My Batches</a></li>
+                        
+                    </ul>
+
+                    <ul class="navbar-nav align-items-center">
+                        @{
+                            var fullName = Context.Session.GetString("loggedinuserFullName") ?? "Student";
+                        }
+
+                        <li class="nav-item d-none d-md-block">
+                            <span class="nav-link text-white">Hello, @fullName</span>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-light dropdown-toggle" id="profileDropdown" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-circle-user fa-2x"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end profile-dropdown-card" aria-labelledby="profileDropdown">
+                                <div class="profile-header">
+                                    <p class="mb-0">@fullName</p>
+                                    <small>Student</small>
+                                </div>
+
+                                <div class="dropdown-menu-body">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Student" asp-action="Profile">
+                                        <i class="fa-solid fa-user-graduate text-primary"></i>
+                                        <span>My Profile</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Student" asp-action="MyPayments">
+                                        <i class="fa-solid fa-wallet text-success"></i>
+                                        <span>My Payments</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Feedback" asp-action="Create">
+                                        <i class="fa-solid fa-comment-dots text-info"></i>
+                                        <span>Give Feedback</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Feedback" asp-action="MyFeedbacks">
+                                        <i class="fa-solid fa-comment-dots text-info"></i>
+                                        <span>My Feedback</span>
+                                    </a>
+                                </li>
+
+                                <hr class="dropdown-divider my-2">
+
+                                <li class="px-1">
+                                    <form asp-controller="User" asp-action="Logout" method="post">
+                                        <button type="submit" class="btn logout-btn w-100 d-flex align-items-center justify-content-center">
+                                            <i class="fa-solid fa-arrow-right-from-bracket me-2"></i> Sign Out
+                                        </button>
+                                    </form>
+                                </li>
+                </div>
+                </ul>
+                </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer bg-primary border-top mt-auto">
+        <div class="container text-center py-1 text-white">
+            <span class="opacity-75">&copy; 2026 - KaryaNova - </span>
+            <a class="text-white fw-bold text-decoration-none border-bottom border-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

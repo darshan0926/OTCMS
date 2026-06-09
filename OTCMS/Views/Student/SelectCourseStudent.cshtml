@@ -1,0 +1,63 @@
+﻿@model OTCMS.Components.Video
+@{
+    ViewData["Title"] = "Select Course";
+    Layout = "~/Views/Shared/_StudentLayout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+
+            <!-- ✅ Page Header -->
+            <div class="text-center mb-4">
+                <h2 class="fw-bold">Select Course</h2>
+                <p class="text-muted">
+                    Choose a course to view available learning videos
+                </p>
+            </div>
+
+            <!-- ✅ Card -->
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+
+                    <form asp-action="GetAllVideosByCourseIdStudent" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- ✅ Course Dropdown -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Course
+                            </label>
+                            <select asp-for="CourseId"
+                                    class="form-select form-select-lg"
+                                    asp-items="@(ViewData["CourseId"] as SelectList)">
+                                <option value="">-- Select a Course --</option>
+                            </select>
+                        </div>
+
+                        <!-- ✅ Actions -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a asp-controller="Student" asp-action="Index" class="btn btn-outline-secondary">Back to Dashboard</a>
+
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                View Videos
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- ✅ Helper Text -->
+            <div class="text-center text-muted small mt-3">
+                📹 Videos will be shown based on the selected course
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,82 @@
+﻿
+@model OTCMS.Components.BatchContent
+
+@{
+    ViewData["Title"] = "Create Batch Content";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Create Batch Content</h1>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Batch Content Information</h4>
+    </div>
+
+    <div class="card-body">
+
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="BCId" class="form-label">Batch Content Id</label>
+                <input asp-for="BCId" class="form-control" placeholder="Enter Content Id" />
+                <span asp-validation-for="BCId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="BatchId" class="form-label">Select Batch</label>
+                <select asp-for="BatchId" class="form-control" asp-items="ViewBag.BatchId"></select>
+                <span asp-validation-for="BatchId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Topic" class="form-label">Topic</label>
+                <input asp-for="Topic" class="form-control" placeholder="Enter Topic" />
+                <span asp-validation-for="Topic" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="OnDate" class="form-label">Session Date</label>
+                <input asp-for="OnDate" class="form-control" />
+                <span asp-validation-for="OnDate" class="text-danger"></span>
+            </div>
+
+            <!-- Video Upload -->
+            <div class="form-group mb-3">
+                <label asp-for="VideoFile" class="form-label">Upload Video (MP4/WEBM)</label>
+                <input type="file" asp-for="VideoFile" class="form-control" accept="video/mp4,video/webm" />
+                <span asp-validation-for="VideoFile" class="text-danger"></span>
+            </div>
+
+            <!-- Notes PDF Upload -->
+            <div class="form-group mb-3">
+                <label asp-for="NotesDocument" class="form-label">Upload Study Notes (PDF)</label>
+                <input type="file" asp-for="NotesDocument" class="form-control" accept="application/pdf" />
+                <span asp-validation-for="NotesDocument" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-4">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary ms-2">Back to List</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<style>
+    body {
+        /* background-image: url('@Url.Content("~/images/new_background.jpg")');  */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

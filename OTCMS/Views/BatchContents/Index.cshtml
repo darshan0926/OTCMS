@@ -1,0 +1,122 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model IEnumerable<OTCMS.Components.BatchContent>
+
+@{
+    ViewData["Title"] = "Batch Content List";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1 class="mb-4 text-primary">Batch Content Management</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Add Batch Content</a>
+
+    <!-- ✅ Filter By Batch Name dropdown (like Batch Index) -->
+    <form asp-action="Index" method="get" style="display:inline-block; margin-left:15px;">
+        <div class="form-actions no-color my-3">
+            <div class="card shadow-sm border-0 p-3">
+                <div class="d-flex flex-column flex-md-row align-items-center gap-3">
+
+                    <!-- Label + Dropdown Side By Side -->
+                    <div class="d-flex align-items-center gap-2">
+                        <label class="fw-semibold mb-0">Filter By Batch Name</label>
+
+                        <select name="batchId"
+                                asp-items="@(ViewData["BatchId"] as SelectList)"
+                                class="form-select"
+                                style="min-width: 240px;"
+                                onchange="this.form.submit()">
+                            <option value="">-- Select Batch --</option>
+                        </select>
+                    </div>
+
+                    <!-- Reset Button -->
+                    <a asp-action="Index">Reset</a>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</p>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning mt-3">
+        No batch contents found for the selected batch.
+    </div>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Topic</th>
+                <th>On Date</th>
+                <th>Video</th>
+                <th>Notes (PDF)</th>
+                <th>Batch Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <!-- Topic -->
+                    <td>@item.Topic</td>
+
+                    <!-- On Date -->
+                    <td>@item.OnDate.ToString("yyyy-MM-dd")</td>
+
+                    <!-- Video File -->
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.VideoFilePath))
+                        {
+                            <video src="@item.VideoFilePath" width="500" height="250" controls>
+                            </video>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No Video</span>
+                        }
+                    </td>
+
+                    <!-- Notes PDF -->
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.NotesDocumentPath))
+                        {
+                            <a href="@item.NotesDocumentPath" target="_blank" class="btn btn-outline-info btn-sm">
+                                View PDF
+                            </a>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No PDF</span>
+                        }
+                    </td>
+
+                    <!-- Batch Name -->
+                    <td>@item.Batch?.BatchName</td>
+
+                    <!-- Actions -->
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.BCId" class="btn btn-primary btn-sm">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.BCId" class="btn btn-info btn-sm">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.BCId" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<style>
+    body {
+        @* background-image: url('@Url.Content("~/images/new_background.jpg")'); *@
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+</style>

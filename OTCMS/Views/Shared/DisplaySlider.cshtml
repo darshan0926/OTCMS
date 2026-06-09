@@ -1,0 +1,92 @@
+﻿
+@using OTCMS.Dal
+
+@inject OtcmsDbContext context
+
+@*
+
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+
+*@
+@{
+    var sliders = context.sliders
+                          .Where(s => s.SliderStatus)
+                          .OrderBy(s => s.SliderOrderNo)
+                          .ToList();
+}
+
+<div id="carouselExampleIndicators"
+     class="carousel slide"
+     data-bs-ride="carousel"
+     data-bs-interval="3000"
+     class="carousel slide ">
+
+    <div class="carousel-indicators">
+
+        @for (var i = 0; i < sliders.Count; i++)
+        {
+            <button type="button"
+                    data-bs-target="#carouselExampleIndicators"
+                    data-bs-slide-to="@i"
+                    class="@(i == 0 ? "active" : "")"
+                    aria-current="@(i == 0 ? "true" : null)"
+                    aria-label="Slide @(i + 1)">
+            </button>
+        }
+    </div>
+
+    <div class="carousel-inner">
+
+        @for (int j = 0; j < sliders.Count; j++)
+        {
+            var s = sliders[j];
+
+            var courseId = context.courses.Where(c => c.Status && c.NameOfTheCourse == s.SliderName)
+            .Select(c => c.CourseId)
+            .FirstOrDefault();
+
+            var path = string.IsNullOrEmpty(Context.Request.Path.Value) || Context.Request.Path.Value == "/"
+            ? "/Home"
+            : Context.Request.Path.Value;
+
+
+            var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{path}/";
+            var href = $"{baseUrl.TrimEnd('/')}/{s.SliderUrl}{courseId}";
+
+
+
+            <div class="carousel-item @(j == 0 ? "active" : "")">
+                <a href="@href">
+                    <img src="@s.SliderImagePath" class="d-block w-100" alt="@s.SliderName" />
+                </a>
+
+                <div class="carousel-caption d-none d-md-block">
+                    <a href="@href">
+                        @* <h5>@s.SliderText</h5> *@
+                    </a>
+                   @* <p>@s.SliderDescriptionText</p> *@
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+
+
+</div>
+
+<style>
+    /* Force carousel images to a fixed height */
+    #carouselExampleIndicators .carousel-item img {
+        height: 300px; /* Desired height */
+        object-fit: cover; /* Ensures image scales nicely */
+    }
+</style>
