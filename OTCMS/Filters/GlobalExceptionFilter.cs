@@ -12,7 +12,7 @@ namespace OTCMS.Filters
             // Custom error response
             context.Result = new ViewResult
             {
-                ViewName = "MyError"
+                ViewName = "Error"
             };
             context.ExceptionHandled = true;
         }
