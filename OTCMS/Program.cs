@@ -16,6 +16,7 @@ namespace OTCMS
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -23,7 +24,7 @@ namespace OTCMS
             builder.Services.AddDbContext<OtcmsDbContext>(options =>
             {
                 string cs = builder.Configuration.GetConnectionString("otcmss");
-                options.UseSqlServer(cs);
+                options.UseNpgsql(cs);
             });
             builder.Services.AddSession();
             builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
